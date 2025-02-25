@@ -100,25 +100,5 @@ func main() {
 	app := NewApp(appConfig)
 	app.Config.Logger.Printf("Starting application with ID: %s", appConfig.ID)
 
-	// Start Lambda handler
-	/*
-			AWS Lambda Needs a Function to Execute
-				AWS Lambda expects you to provide a handler function that processes incoming events
-				(e.g., an HTTP request from API Gateway, an S3 file upload, or a message from an SQS queue).
-
-				2. lambda.Start() Registers Your Function
-				When you write lambda.Start(app.Handler), you are telling AWS Lambda:
-
-				"Hey AWS, whenever an event occurs,
-				please call my Handler function to process it."
-
-				This function should match AWS Lambda's expected format.
-				func Handler(ctx context.Context, event MyEvent) (MyResponse, error) {
-		    // Business logic
-		}
-
-
-	*/
-
 	lambda.Start(app.Handler)
 }
