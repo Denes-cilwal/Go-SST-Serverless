@@ -1,0 +1,22 @@
+AWS Console vs. SST/CDK: What’s the Difference?
+Here’s a breakdown of the two approaches based on your deployment:
+
+*** AWS Console Deployment *** 
+    Process: You manually:
+    Compiled your Go code (GOOS=linux GOARCH=amd64 go build -o main).
+    Zipped the binary and uploaded it to Lambda via the Console.
+    Configured runtime (Go 1.x), handler (main), and memory settings.
+    Set up API Gateway, added a route (e.g., /test), and linked it to Lambda.
+        Serverless?: Yes—Lambda runs your code on-demand, and API Gateway handles HTTP requests.
+    Experience: Point-and-click, visual, but repetitive and error-prone for complex setups.
+
+
+
+  *** SST with AWS CDK Deployment ***
+    Process: You:
+    Wrote your Go code in lambdas/main.go.
+    Defined the infrastructure in sst.config.ts using CDK constructs (e.g., aws_lambda.Function, RestApi).
+    Ran npx sst deploy to build, upload, and configure everything automatically.
+    Serverless?: Yes—same outcome: Lambda executes your code, API Gateway routes requests.
+    Experience: Code-driven, programmatic, and streamlined via SST’s tooling.
+    Both methods result in a serverless application, but the how differs significantly.

@@ -1,0 +1,29 @@
+Infrastructure as Code (IaC)
+Console: You configure everything manually through a UI. If you need to replicate the setup (e.g.,
+for another environment like staging or another region), you repeat the clicks. Mistakes creep in easily.
+
+SST/CDK: Your infrastructure is defined in code (sst.config.ts). You can version it with Git, reuse
+ it across projects, and modify it programmatically. For example, changing the API route from /test to /status
+ is a one-line edit, not a multi-step Console process.
+
+Automation and Consistency
+Console: Uploading a new version of your Go code means recompiling, zipping, and uploading again—every time.
+ Missteps (e.g., forgetting to update the handler) can break things.
+
+SST/CDK: Running npx sst deploy automates the build, upload, and deployment.
+It ensures your Lambda function and API Gateway are always in sync with your code and config.
+SST even handles the Go compilation for you under the hood.
+
+
+Scalability for Complex Applications
+Console: Fine for a single Lambda and one endpoint, but what if you need 10 endpoints,
+DynamoDB integration, or SQS queues? Configuring this manually becomes a nightmare.
+SST/CDK: You can define multiple resources in code effortlessly. Add a new route?
+Just call api.root.addResource('status'). Need a database? Add a cdk.aws_dynamodb.Table construct.
+It scales with your project’s complexity without extra grunt work.
+
+
+Console: Changes are hard to track—who configured what, and when? Sharing setups with
+teammates means writing docs or hoping they replicate your clicks.
+SST/CDK: Your infrastructure lives in a Git repo. Teammates clone it,
+run npx sst deploy, and get the exact same setup. It’s reproducible and auditable.

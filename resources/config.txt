@@ -1,0 +1,72 @@
+- you have your go code , you have your cdk code
+- you need to build your main.go file into a binary and that is what going to zipped from our function to lambda
+- When you run lambda.Start(app.Handler), AWS Lambda itself is not running inside your Go code.
+Instead, your Go application is deployed to AWS Lambda, and AWS automatically calls your
+Handler function when an event occurs.
+
+ Where is AWS Lambda?
+  - AWS Lambda is a cloud service that runs your function in response to an event.
+  -  Your Go code does not start AWS Lambda—instead, AWS Lambda runs your code when needed.
+
+
+What Happens Behind the Scenes?
+You deploy your Go program to AWS Lambda.
+
+Your Go program is packaged and uploaded to AWS Lambda as a function.
+Example: You use the AWS CLI, AWS Console, or a deployment tool like Terraform.
+AWS Lambda runs your function when an event occurs.
+
+Example events:
+An API request from API Gateway
+A file upload in S3
+A message received in SQS
+A scheduled event in EventBridge
+AWS Lambda calls lambda.Start(Handler).
+
+When AWS Lambda starts your function, lambda.Start() registers your Handler function.
+AWS then waits for an event.
+When an event comes, AWS automatically calls Handler() with the event data.
+Your function processes the event and returns a response.
+
+Your handler function processes the event.
+AWS Lambda takes the response and sends it back to the service that triggered the function.
+
+
+
+Why Set Headers in the Response?
+Content-Type: application/json
+
+Ensures that the response is recognized as JSON.
+Helps clients (browsers, mobile apps, other services) correctly interpret the response.
+CORS Headers (Access-Control-Allow-Origin, etc.)
+
+Allows web browsers to make requests to your API from a different domain.
+Without these, browsers might block API requests due to CORS restrictions.
+Security & API Gateway Compatibility
+
+Some headers ensure the API behaves correctly when using authentication (Authorization header).
+API Gateway might require certain headers to properly relay the response.
+
+
+
+What Does "Serverless" Mean Here?
+In both cases—whether you deployed via the AWS Console or used SST—you’re indeed working with a serverless architecture.
+"Serverless" doesn’t mean there are no servers involved; rather,
+it means you don’t have to manage them. AWS handles the provisioning, scaling, and maintenance of the
+underlying infrastructure. In your example:
+
+AWS Lambda: Executes your Go code on-demand, spinning up compute resources only when a request hits
+ and shutting them down afterward.
+
+API Gateway: Routes HTTP requests to your Lambda function without requiring a persistent server.
+When you deployed through the AWS Console, you likely uploaded your Go binary (e.g., main) to Lambda,
+configured an API Gateway trigger, and set up basic settings manually. That’s serverless because there’s
+ no EC2 instance or container you’re directly managing—AWS abstracts it all away.
+
+Using SST with the AWS CDK achieves the same serverless outcome, but it shifts how you define and manage
+that infrastructure. Instead of clicking through the AWS Console, you describe your Lambda function and
+API Gateway in code (TypeScript in this case), and SST deploys it for you
+
+
+
+
